@@ -2,18 +2,19 @@
 var puzzle = document.getElementById('puzzle');
 var lungime = prompt("Please enter the perfect number", "");
 
-if (lungime == null || lungime == "") {
-    txt = "User cancelled the prompt.";
-} else {
-    txt = "Hello " + lungime + "! How are you today?";
-}
 
+    while( lungime < 3 || lungime == null || lungime == ""){
+    prompt("User cancelled the prompt. Try again, with a bigger number");
+    lungime = prompt("Please enter the perfect number", "");
+    }
+scramble();
 
+solve();
 
-$("#solver").click(function () {
+$("#scramble").click(function () {
     scramble();
 });
-solve();
+
 
 puzzle.addEventListener('click', function (e) {
         puzzle.className = 'animate';
@@ -47,18 +48,26 @@ function solve() {
     }
 }
 
-/*function verify() {
-    console.log($(this).attr("span[id='load-2-2']"));
-    $el = $(this);
-    $integration = $(this).attr('id');
-    console.log($el);
-    console.log($integration);
-   /!* for(var i=0;i<lungime;i++){
+function verify() {
+        var a=1;
+    if(getCell(lungime,lungime) != null){
+        return;
+    }
+    for(var i=0;i<lungime;i++){
         for(var j=0;j<lungime;j++){
-             console.log(  $("span[id=load-" + i +"-" + j +"]").text);
+            console.log(getCell(i,j).innerHTML);
+           if(a <= lungime*lungime && getCell(i,j).className != 'empty' && getCell(i,j).innerHTML != a.toString()){
+              return;
+           }
+           a++;
+
         }
-    }*!/
-}*/
+    }
+
+  if(confirm("Congratulation, ou did it :) \n Do you want to scramble? ")){
+        scramble();
+  }
+}
 
 function shiftCell(load) {
 
@@ -66,25 +75,26 @@ function shiftCell(load) {
     // Checks if selected load has number
     if (load.className != 'empty') {
 
-        // Tries to get empty adjacent load
+
         var emptyCell = getEmptyAdiacentCell(load);
-        console.log(emptyCell);
+
 
         if (emptyCell) {
-            // Temporary data
+
             var tmp = {style: load.style.cssText, id: load.id};
 
-            // Exchanges id and style values
+
             load.style.cssText = emptyCell.style.cssText;
             load.id = emptyCell.id;
+
+
             emptyCell.style.cssText = tmp.style;
             emptyCell.id = tmp.id;
-            //verify();
+            verify();
+
 
         }
     }
-
-
 }
 
 function getCell(row, col) {
@@ -168,7 +178,7 @@ function scramble() {
             clearInterval(interval);
 
         }
-    }, 5);
+    }, lungime);
 
 }
 

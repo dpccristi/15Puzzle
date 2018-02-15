@@ -9,7 +9,7 @@
 <body>
 <div id="puzzle"></div>
 <div id="controls">
-    <button id="solver" >Solve</button>
+    <button id="scramble" >Scramble</button>
 
 </div>
 
